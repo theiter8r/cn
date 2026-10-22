@@ -1,0 +1,21 @@
+enable
+configure terminal
+hostname R4
+no ip domain-lookup
+interface Loopback0
+ ip address 4.4.4.4 255.255.255.255
+ exit
+interface FastEthernet0/0
+ ip address 10.0.34.4 255.255.255.0
+ no shutdown
+ exit
+router rip
+ version 2
+ no auto-summary
+ network 10.0.34.0
+ network 4.4.4.4
+ exit
+end
+write memory
+show ip interface brief
+show ip route

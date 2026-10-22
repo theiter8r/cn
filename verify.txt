@@ -1,0 +1,17 @@
+On R1:
+  show ip interface brief
+  show ip route
+  ping 10.0.34.4
+  ping 4.4.4.4
+  traceroute 4.4.4.4
+On R4:
+  ping 10.0.12.1
+  ping 1.1.1.1
+
+RIP only:
+  show ip protocols
+  show ip rip database
+  debug ip rip   (undebug all to stop)
+OSPF only:
+  show ip ospf neighbor
+  show ip route ospf

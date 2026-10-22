@@ -1,0 +1,26 @@
+enable
+configure terminal
+hostname R3
+no ip domain-lookup
+interface Loopback0
+ ip address 3.3.3.3 255.255.255.255
+ exit
+interface FastEthernet0/0
+ ip address 10.0.23.3 255.255.255.0
+ no shutdown
+ exit
+interface FastEthernet0/1
+ ip address 10.0.34.3 255.255.255.0
+ no shutdown
+ exit
+router rip
+ version 2
+ no auto-summary
+ network 10.0.23.0
+ network 10.0.34.0
+ network 3.3.3.3
+ exit
+end
+write memory
+show ip interface brief
+show ip route
