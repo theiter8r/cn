@@ -1,0 +1,18 @@
+EXPERIMENT 12 - WIRESHARK SECURITY ANALYSIS FILTERS
+===================================================
+tcp                                   all TCP packets (src/dst IP, ports)
+tcp.port == 443                       HTTPS traffic
+tls                                   TLS (encrypted) packets
+tls.handshake.type == 1               TLS Client Hello
+tls.handshake.extensions_server_name  shows the site name (SNI) - visible even with HTTPS
+dns                                   DNS queries and responses
+dns.flags.response == 0               DNS queries only
+dns.qry.name                          requested domain names (exposure)
+http                                  plain-text HTTP (insecure if present)
+http.request.method == "POST"         form data sent in clear text
+http.authorization                    clear-text HTTP credentials
+ftp || telnet                         other insecure clear-text protocols
+tcp.flags.reset == 1                  reset connections
+tcp.analysis.retransmission           retransmissions
+
+Test HTTP: open http://neverssl.com while capturing, then filter "http".
