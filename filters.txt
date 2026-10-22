@@ -1,0 +1,28 @@
+EXPERIMENT 9 - WIRESHARK FILTERS
+================================
+
+(a) CAPTURE FILTER (Capture > Options > "Capture filter", set BEFORE starting)
+    tcp and (host www.facebook.com or host www.instagram.com or host www.youtube.com)
+  Simpler: capture everything with
+    tcp
+  then find the site with this DISPLAY filter (shows the server IP in the TLS hello):
+    tls.handshake.extensions_server_name contains "youtube" || tls.handshake.extensions_server_name contains "facebook" || tls.handshake.extensions_server_name contains "instagram"
+    dns.qry.name contains "youtube"
+  Save: File > Save As > capture.pcapng
+
+(b) DISPLAY FILTERS - TCP FLAGS (count is in the status bar: "Displayed: N")
+    tcp                          -> total TCP packets
+    tcp.flags.syn == 1           -> SYN set
+    tcp.flags.push == 1          -> PSH set
+    tcp.flags.reset == 1         -> RST set
+    tcp.flags.syn == 1 && tcp.flags.push == 1 && tcp.flags.reset == 1   -> all three together
+  Fraction = flag packets / total TCP packets
+
+(c) PACKETS TO / FROM THE SERVER  (replace SERVER_IP, e.g. 142.251.221.238)
+    tcp && ip.src == SERVER_IP    -> TCP received from server
+    tcp && ip.dst == SERVER_IP    -> TCP sent to server
+    http && ip.src == SERVER_IP   -> HTTP received
+    http && ip.dst == SERVER_IP   -> HTTP sent
+    (HTTP is usually 0 because these sites use HTTPS/TLS on port 443)
+
+Statistics > Conversations > TCP also shows packets per server IP.
