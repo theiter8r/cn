@@ -1,0 +1,19 @@
+! Optional: same DHCP pool on a Cisco router (GNS3, or Packet Tracer without Server-PT)
+! Router Fa0/0 (or Gi0/0) connects to the switch.
+enable
+configure terminal
+hostname R1
+interface FastEthernet0/0
+ ip address 192.168.1.1 255.255.255.0
+ no shutdown
+ exit
+ip dhcp excluded-address 192.168.1.1 192.168.1.9
+ip dhcp pool LAN
+ network 192.168.1.0 255.255.255.0
+ default-router 192.168.1.1
+ dns-server 192.168.1.2
+ exit
+end
+write memory
+show ip dhcp binding
+show ip dhcp pool

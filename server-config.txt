@@ -1,0 +1,24 @@
+SERVER (Server-PT) - Desktop > IP Configuration (Static)
+  IPv4 Address    : 192.168.1.2
+  Subnet Mask     : 255.255.255.0
+  Default Gateway : 192.168.1.1
+
+SERVER - Services > DHCP  (edit serverPool, then click Save)
+  Interface            : FastEthernet0
+  Service              : ON
+  Pool Name            : serverPool
+  Default Gateway      : 192.168.1.1
+  DNS Server           : 192.168.1.2
+  Start IP Address     : 192.168.1.10
+  Subnet Mask          : 255.255.255.0
+  Maximum Number of Users : 50
+
+PC0 / PC1 / PC2 - Desktop > IP Configuration > select DHCP
+  Expected: PC0 192.168.1.10, PC1 192.168.1.11, PC2 192.168.1.12
+
+Verify on PC0 > Desktop > Command Prompt:
+  ipconfig
+  ipconfig /release
+  ipconfig /renew
+  ping 192.168.1.11
+  ping 192.168.1.2
