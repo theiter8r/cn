@@ -1,0 +1,14 @@
+show running-config          (passwords appear as "secret 5" / "password 7" = encrypted)
+show ip ssh
+show ssh
+show login
+show users
+show ip interface brief
+
+Test:
+1. exit, then press Enter -> banner + console password prompt.
+2. enable -> asks for enable secret (cisco123).
+3. From a PC/VPCS on 192.168.1.0/24:
+     ssh -l admin 192.168.1.1        (Packet Tracer PC: Desktop > Command Prompt)
+   telnet 192.168.1.1 is refused (only SSH allowed).
+4. Enter a wrong password 3 times -> login blocked for 120 s ("show login").

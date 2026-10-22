@@ -1,0 +1,55 @@
+! Experiment 11 - Basic terminal security commands (Cisco IOS)
+! Works in GNS3 (c3725/c7200) and Packet Tracer (2811/1941). Paste into router console.
+enable
+configure terminal
+hostname R1
+no ip domain-lookup
+
+! 1. Privileged EXEC password (encrypted, MD5)
+enable secret cisco123
+
+! 2. Console password + auto logout after 5 minutes idle
+line console 0
+ password console123
+ login
+ exec-timeout 5 0
+ logging synchronous
+ exit
+
+! 3. Local user for SSH / VTY
+username admin privilege 15 secret admin123
+
+! 4. Encrypt all plain-text passwords in the config
+service password-encryption
+security passwords min-length 8
+
+! 5. Login banner
+banner motd # WARNING: Authorized access only! Unauthorized access is prohibited. #
+
+! 6. Block login for 120 s after 3 failed attempts within 60 s
+login block-for 120 attempts 3 within 60
+
+! 7. Management IP
+interface FastEthernet0/0
+ ip address 192.168.1.1 255.255.255.0
+ no shutdown
+ exit
+
+! 8. SSH only on VTY lines (no Telnet)
+ip domain-name cnlab.local
+crypto key generate rsa general-keys modulus 1024
+ip ssh version 2
+ip ssh time-out 60
+ip ssh authentication-retries 3
+line vty 0 4
+ login local
+ transport input ssh
+ exec-timeout 5 0
+ exit
+
+! 9. Disable unused services
+no ip http server
+no cdp run
+
+end
+write memory
