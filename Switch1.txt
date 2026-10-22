@@ -1,0 +1,10 @@
+enable
+configure terminal
+hostname Switch1
+no ip domain-lookup
+line console 0
+ logging synchronous
+ exit
+end
+write memory
+show spanning-tree
